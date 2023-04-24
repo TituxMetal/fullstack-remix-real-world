@@ -32,6 +32,13 @@ const App = () => {
         <Links />
       </head>
       <body className='h-full bg-zinc-900 text-green-400'>
+        <nav>
+          <ul>
+            <li>Conduit</li>
+            <li>Login</li>
+            <li>Register</li>
+          </ul>
+        </nav>
         <Outlet />
         <ScrollRestoration />
         <Scripts />

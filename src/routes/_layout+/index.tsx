@@ -9,26 +9,9 @@ const IndexPage = () => {
         <h1 className=' text-4xl font-bold uppercase'>conduit</h1>
         <p className='text-2xl'>A place to share your knowledge.</p>
       </section>
-      {/* <section className='my-4 flex max-w-screen-md flex-col space-y-4 text-lg'>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus
-          velit ut quaerat quidem, ea corrupti facilis perferendis quis totam
-          consequatur. Odit est provident tempore maxime voluptate consequatur
-          aperiam reiciendis iusto?
-        </p>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus
-          velit ut quaerat quidem, ea corrupti facilis perferendis quis totam
-          consequatur. Odit est provident tempore maxime voluptate consequatur
-          aperiam reiciendis iusto?
-        </p>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus
-          velit ut quaerat quidem, ea corrupti facilis perferendis quis totam
-          consequatur. Odit est provident tempore maxime voluptate consequatur
-          aperiam reiciendis iusto?
-        </p>
-      </section> */}
+      <section className='my-4 flex w-full max-w-screen-md flex-col space-y-4 text-xl'>
+        <p>Home Page</p>
+      </section>
     </main>
   )
 }
