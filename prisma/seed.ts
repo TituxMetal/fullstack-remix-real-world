@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcryptjs'
+import * as argon from 'argon2'
 
 const prisma = new PrismaClient()
 
@@ -12,7 +12,7 @@ async function seed() {
     // no worries if it doesn't exist yet
   })
 
-  const hashedPassword = await bcrypt.hash('tituxiscool', 10)
+  const hashedPassword = await argon.hash('tituxiscool')
 
   await prisma.user.create({
     data: {
