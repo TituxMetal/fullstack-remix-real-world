@@ -1,6 +1,7 @@
 import type { LinksFunction, LoaderArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -32,12 +33,32 @@ const App = () => {
         <Links />
       </head>
       <body className='h-full bg-zinc-900 text-green-400'>
-        <nav>
-          <ul>
-            <li>Conduit</li>
-            <li>Login</li>
-            <li>Register</li>
-          </ul>
+        <nav className='w-full px-5'>
+          <div className='mx-auto flex w-full max-w-screen-lg content-center justify-between py-3'>
+            <Link to='/' className='text-3xl font-bold'>
+              Conduit
+            </Link>
+            <ul className=' flex flex-col items-center justify-between gap-x-4 font-bold md:flex-row'>
+              <li>
+                <Link to='/login'>Login</Link>
+              </li>
+              <li>
+                <Link to='/register'>Register</Link>
+              </li>
+              <li>
+                <Link to='/profile/titux'>Titux Profile</Link>
+              </li>
+              <li>
+                <Link to='/profile/settings'>Profile Settings</Link>
+              </li>
+              <li>
+                <Link to='/article/new'>New article</Link>
+              </li>
+              <li>
+                <Link to='/article/abc'>View Article abc</Link>
+              </li>
+            </ul>
+          </div>
         </nav>
         <Outlet />
         <ScrollRestoration />
