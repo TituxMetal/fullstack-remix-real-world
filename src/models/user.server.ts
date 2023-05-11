@@ -1,59 +1,40 @@
-import type { Password, User } from '@prisma/client'
+import type { Password, Prisma, Profile, User } from '@prisma/client'
 import * as argon from 'argon2'
 
 import { prisma } from '~/lib'
 
-export type { User } from '@prisma/client'
-
-export const getUserById = async (id: User['id']) => {
-  return prisma.user.findUnique({ where: { id } })
+type CreateUserInput = {
+  email: User['email']
+  password: Password['hash']
+  username: Profile['username']
 }
 
-export const getUserByEmail = async (email: User['email']) => {
-  return prisma.user.findUnique({ where: { email } })
-}
-
-export const createUser = async (email: User['email'], password: string) => {
-  const hashedPassword = await argon.hash(password)
+export const create = async (data: CreateUserInput) => {
+  const { password, username, ...dto } = data
+  const hash = await argon.hash(password)
 
   return prisma.user.create({
     data: {
-      email,
-      password: {
-        create: {
-          hash: hashedPassword
-        }
-      }
-    }
+      ...dto,
+      profile: { create: { username } },
+      password: { create: { hash } }
+    },
+    include: { profile: true }
   })
 }
 
-export const deleteUserByEmail = async (email: User['email']) => {
-  return prisma.user.delete({ where: { email } })
-}
-
-export const verifyLogin = async (
-  email: User['email'],
-  password: Password['hash']
+export const getByUniqueField = async (
+  where: Prisma.UserWhereUniqueInput,
+  options?: Prisma.UserInclude
 ) => {
-  const userWithPassword = await prisma.user.findUnique({
-    where: { email },
-    include: {
-      password: true
-    }
-  })
+  const include = options || { password: false, profile: true }
 
-  if (!userWithPassword || !userWithPassword.password) {
-    return null
-  }
-
-  const isValid = await argon.verify(userWithPassword.password.hash, password)
-
-  if (!isValid) {
-    return null
-  }
-
-  const { password: _password, ...userWithoutPassword } = userWithPassword
-
-  return userWithoutPassword
+  return prisma.user.findUnique({ where, include })
 }
+
+export const getByEmail = async (email: string) => getByUniqueField({ email })
+
+export const getById = async (id: string) => getByUniqueField({ id })
+
+export const getByEmailWithPassword = async (email: string) =>
+  getByUniqueField({ email }, { password: true, profile: true })

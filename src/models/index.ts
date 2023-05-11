@@ -1,1 +1,7 @@
-export * from './user.server'
+export {
+  create,
+  getByEmail,
+  getByEmailWithPassword,
+  getById,
+  getByUniqueField
+} from './user.server'
