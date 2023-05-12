@@ -4,6 +4,7 @@ import { Authenticator, AuthorizationError } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 
+import { prisma } from '~/lib'
 import { create, getByEmail, getByEmailWithPassword } from '~/models'
 
 import { sessionStorage } from './session.server'
@@ -58,9 +59,12 @@ authenticator.use(
     invariant(typeof username === 'string', 'must be a string')
 
     const existingUser = await getByEmail(email)
+    const existingProfile = await prisma.profile.findUnique({
+      where: { username }
+    })
 
-    if (existingUser) {
-      console.log('Email already taken.', FormStrategy.name)
+    if (existingUser || existingProfile) {
+      console.log('Username or Email already taken.', FormStrategy.name)
       throw new AuthorizationError('Invalid Credentials.')
     }
 
