@@ -1,4 +1,4 @@
-import type { LinksFunction } from '@remix-run/node'
+import type { ActionArgs, LinksFunction, LoaderFunction } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -6,16 +6,24 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
+  useLoaderData
 } from '@remix-run/react'
 
+import { authenticator } from './services'
 import tailwindStylesheetUrl from './styles/tailwind.css'
+
+export const loader: LoaderFunction = async ({ request }: ActionArgs) =>
+  authenticator.isAuthenticated(request)
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }]
 }
 
 const App = () => {
+  const user = useLoaderData()
+  console.log({ user })
+
   return (
     <html lang='en' className='h-full'>
       <head>
@@ -32,23 +40,37 @@ const App = () => {
             </Link>
             <ul className=' flex flex-col items-center justify-between gap-x-4 font-bold md:flex-row'>
               <li>
-                <Link to='/login'>Login</Link>
-              </li>
-              <li>
-                <Link to='/register'>Register</Link>
-              </li>
-              <li>
                 <Link to='/profile/titux'>Titux Profile</Link>
               </li>
-              <li>
-                <Link to='/profile/settings'>Profile Settings</Link>
-              </li>
-              <li>
-                <Link to='/article/new'>New article</Link>
-              </li>
+
               <li>
                 <Link to='/article/abc'>View Article abc</Link>
               </li>
+              {user && (
+                <>
+                  <li>
+                    <Link to='/profile/settings'>Profile Settings</Link>
+                  </li>
+                  <li>
+                    <Link to='/article/new'>New article</Link>
+                  </li>
+                  <li>
+                    <form action='/logout' method='post'>
+                      <button type='submit'>Logout</button>
+                    </form>
+                  </li>
+                </>
+              )}
+              {!user && (
+                <>
+                  <li>
+                    <Link to='/login'>Login</Link>
+                  </li>
+                  <li>
+                    <Link to='/register'>Register</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </nav>
