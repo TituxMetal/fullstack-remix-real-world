@@ -10,18 +10,6 @@ import { sessionStorage } from './session.server'
 
 type AuthSession = Pick<User, 'id' | 'email'> & Pick<Profile, 'username'>
 
-const extractFormData = (form: FormData) => {
-  const email = form.get('email')
-  const password = form.get('password')
-  const username = form.get('username')
-
-  invariant(typeof email === 'string')
-  invariant(typeof password === 'string')
-  invariant(typeof username === 'string')
-
-  return { email, password, username }
-}
-
 export const authenticator = new Authenticator<AuthSession>(sessionStorage, {
   sessionKey: 'sessionKey',
   sessionErrorKey: 'sessionErrorKey',
@@ -30,11 +18,16 @@ export const authenticator = new Authenticator<AuthSession>(sessionStorage, {
 
 authenticator.use(
   new FormStrategy(async ({ form }) => {
-    const { email, password, username } = extractFormData(form)
+    const email = form.get('email')
+    const password = form.get('password')
+
+    invariant(typeof email === 'string')
+    invariant(typeof password === 'string')
 
     const user = await getByEmailWithPassword(email)
+    const username = user?.profile?.username
 
-    if (!user) {
+    if (!user || !username) {
       console.log('No user in database.', FormStrategy.name)
       throw new AuthorizationError('Invalid Credentials.')
     }
@@ -56,7 +49,13 @@ authenticator.use(
 
 authenticator.use(
   new FormStrategy(async ({ form }) => {
-    const { email, password, username } = extractFormData(form)
+    const email = form.get('email')
+    const password = form.get('password')
+    const username = form.get('username')
+
+    invariant(typeof email === 'string', 'must be a string')
+    invariant(typeof password === 'string', 'must be a string')
+    invariant(typeof username === 'string', 'must be a string')
 
     const existingUser = await getByEmail(email)
 
