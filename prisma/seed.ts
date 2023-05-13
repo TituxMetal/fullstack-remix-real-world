@@ -19,6 +19,7 @@ async function seed() {
     slug: 'first-article',
     description: 'First article description'
   }
+  const tag = { name: 'Tag One', slug: 'tag-one' }
 
   await prisma.user.create({
     data: {
@@ -33,7 +34,7 @@ async function seed() {
           username
         }
       },
-      articles: { create: { ...article } }
+      articles: { create: { ...article, tagList: { create: { ...tag } } } }
     }
   })
 
