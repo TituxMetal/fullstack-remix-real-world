@@ -16,6 +16,7 @@ model User {
 
   password Password?
   profile  Profile?
+  articles Article[]
 }
 
 model Password {
@@ -32,4 +33,18 @@ model Profile {
   image    String?
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId   String  @unique
+}
+
+model Article {
+  id          String @id @default(cuid())
+  slug        String @unique
+  title       String
+  description String
+  body        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String @unique
 }
