@@ -17,6 +17,7 @@ model User {
   password Password?
   profile  Profile?
   articles Article[]
+  comments Comment[]
 }
 
 model Password {
@@ -45,9 +46,10 @@ model Article {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId String @unique
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String    @unique
   tagList  Tag[]
+  comments Comment[]
 }
 
 model Tag {
@@ -59,4 +61,17 @@ model Tag {
   updatedAt DateTime @updatedAt
 
   articles Article[]
+}
+
+model Comment {
+  id   String @id @default(cuid())
+  body String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  articleId String
+  author    User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId  String
 }
