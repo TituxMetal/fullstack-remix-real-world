@@ -13,6 +13,12 @@ async function seed() {
   })
 
   const hashedPassword = await argon.hash('tituxiscool')
+  const article = {
+    body: 'First article body text.',
+    title: 'First Article',
+    slug: 'first-article',
+    description: 'First article description'
+  }
 
   await prisma.user.create({
     data: {
@@ -26,7 +32,8 @@ async function seed() {
         create: {
           username
         }
-      }
+      },
+      articles: { create: { ...article } }
     }
   })
 
