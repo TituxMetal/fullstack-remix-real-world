@@ -1,9 +1,7 @@
-import type {
-  ActionArgs,
-  ActionFunction,
-  LoaderArgs,
-  LoaderFunction,
-  V2_MetaFunction
+import {
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction
 } from '@remix-run/node'
 import { Link } from '@remix-run/react'
 import { makeDomainFunction } from 'domain-functions'
@@ -14,9 +12,9 @@ import { RemixForm } from '~/components/form'
 import { loginSchema } from '~/schemas'
 import { authenticator } from '~/services'
 
-export const meta: V2_MetaFunction = () => [{ title: 'Login | Conduit' }]
+export const meta: MetaFunction = () => [{ title: 'Login | Conduit' }]
 
-export const action: ActionFunction = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   await performMutation({
     request,
     schema: loginSchema,
@@ -36,8 +34,9 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   }
 }
 
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) =>
-  authenticator.isAuthenticated(request, { successRedirect: '/' })
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  return authenticator.isAuthenticated(request, { successRedirect: '/' })
+}
 
 const LoginPage = () => {
   return (

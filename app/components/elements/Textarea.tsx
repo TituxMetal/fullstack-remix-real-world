@@ -1,6 +1,5 @@
 import { styled } from '@slicknode/stylemapper'
-import type { TextareaHTMLAttributes } from 'react'
-import { forwardRef } from 'react'
+import { forwardRef, type TextareaHTMLAttributes } from 'react'
 
 type Ref = HTMLTextAreaElement
 type Props = TextareaHTMLAttributes<Ref>

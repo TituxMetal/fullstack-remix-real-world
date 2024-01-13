@@ -4,11 +4,8 @@ const appButtonClassName = `w-max rounded-lg border-2 border-green-100 bg-green-
 
 const StyledAppButton = styled('button', appButtonClassName)
 
-const AppButton = ({
-  className,
-  children
-}: JSX.IntrinsicElements['button']) => (
-  <StyledAppButton className={className}>{children}</StyledAppButton>
-)
+const AppButton = ({ className, children }: JSX.IntrinsicElements['button']) => {
+  return <StyledAppButton className={className}>{children}</StyledAppButton>
+}
 
 export default AppButton

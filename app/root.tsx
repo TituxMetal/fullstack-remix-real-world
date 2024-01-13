@@ -1,4 +1,4 @@
-import type { ActionArgs, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { type LinksFunction, type LoaderFunctionArgs } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -13,7 +13,7 @@ import {
 import { authenticator } from './services'
 import tailwindStylesheetUrl from './styles/tailwind.css'
 
-export const loader: LoaderFunction = async ({ request }: ActionArgs) =>
+export const loader = async ({ request }: LoaderFunctionArgs) =>
   authenticator.isAuthenticated(request)
 
 export const links: LinksFunction = () => {
@@ -21,7 +21,7 @@ export const links: LinksFunction = () => {
 }
 
 const App = () => {
-  const user = useLoaderData()
+  const user = useLoaderData<typeof loader>()
   console.log({ user })
 
   return (

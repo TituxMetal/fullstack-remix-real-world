@@ -25,7 +25,7 @@ export const loginSchema = z.object({
   password: z
     .string()
     .trim()
-    .nonempty({ message: getMessage('Password').notEmpty })
+    .min(1, { message: getMessage('Password').notEmpty })
     .min(6, getMessage('Password', { min: 6 }).minLength)
 })
 
@@ -33,7 +33,7 @@ export const registerSchema = loginSchema.extend({
   username: z
     .string()
     .trim()
-    .nonempty({ message: getMessage('Username').notEmpty })
+    .min(1, { message: getMessage('Username').notEmpty })
     .min(3, { message: getMessage('Username', { min: 3 }).minLength })
     .max(15, { message: getMessage('Username', { max: 15 }).maxLength })
 })

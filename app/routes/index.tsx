@@ -1,6 +1,6 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import { type MetaFunction } from '@remix-run/node'
 
-export const meta: V2_MetaFunction = () => [{ title: 'Home | Conduit' }]
+export const meta: MetaFunction = () => [{ title: 'Home | Conduit' }]
 
 const IndexPage = () => {
   return (

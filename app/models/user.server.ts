@@ -1,4 +1,4 @@
-import type { Password, Prisma, Profile, User } from '@prisma/client'
+import { type Password, type Prisma, type Profile, type User } from '@prisma/client'
 import * as argon from 'argon2'
 
 import { prisma } from '~/lib'

@@ -1,9 +1,9 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import { type MetaFunction } from '@remix-run/node'
 
-export const meta: V2_MetaFunction = ({ params, data }) => {
-  const article = data?.article
+export const meta: MetaFunction = ({ params }) => {
+  const slug = params.slug
 
-  if (!article) {
+  if (!slug) {
     return [
       {
         title: `Title for ${params.slug} article`

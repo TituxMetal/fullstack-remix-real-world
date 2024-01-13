@@ -8,14 +8,10 @@ const appInputClassName = `w-full rounded-lg border-2 bg-transparent px-2 py-1 t
 
 const StyledAppInput = styled('input', appInputClassName)
 
-const AppInput = forwardRef<Ref, Props>(
-  ({ type = 'text', className, ...rest }, ref) => {
-    AppInput.displayName = 'Input'
+const AppInput = forwardRef<Ref, Props>(({ type = 'text', className, ...rest }, ref) => {
+  AppInput.displayName = 'Input'
 
-    return (
-      <StyledAppInput ref={ref} type={type} className={className} {...rest} />
-    )
-  }
-)
+  return <StyledAppInput ref={ref} type={type} className={className} {...rest} />
+})
 
 export default AppInput

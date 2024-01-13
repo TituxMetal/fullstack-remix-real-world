@@ -1,12 +1,10 @@
 import { createCookieSessionStorage } from '@remix-run/node'
-import invariant from 'tiny-invariant'
+
+import { invariant } from '~/utils'
 
 const sessionSecret = process.env.SESSION_SECRET || 'supersescret'
 
-invariant(
-  typeof sessionSecret === 'string',
-  `SESSION_SECRET must be set in env variables.`
-)
+invariant(typeof sessionSecret === 'string', `SESSION_SECRET must be set in env variables.`)
 
 const TEN_DAYS = 60 * 60 * 24 * 10
 const maxAge = Number(process.env.SESSION_MAX_AGE) || TEN_DAYS

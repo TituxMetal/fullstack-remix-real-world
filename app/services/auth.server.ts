@@ -1,11 +1,11 @@
-import type { Profile, User } from '@prisma/client'
+import { type Profile, type User } from '@prisma/client'
 import * as argon from 'argon2'
 import { Authenticator, AuthorizationError } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
-import invariant from 'tiny-invariant'
 
 import { prisma } from '~/lib'
 import { create, getByEmail, getByEmailWithPassword } from '~/models'
+import { invariant } from '~/utils'
 
 import { sessionStorage } from './session.server'
 
@@ -22,8 +22,8 @@ authenticator.use(
     const email = form.get('email')
     const password = form.get('password')
 
-    invariant(typeof email === 'string')
-    invariant(typeof password === 'string')
+    invariant(typeof email === 'string', 'Email must be a string.')
+    invariant(typeof password === 'string', 'Password must be a string.')
 
     const user = await getByEmailWithPassword(email)
     const username = user?.profile?.username
@@ -54,9 +54,9 @@ authenticator.use(
     const password = form.get('password')
     const username = form.get('username')
 
-    invariant(typeof email === 'string', 'must be a string')
-    invariant(typeof password === 'string', 'must be a string')
-    invariant(typeof username === 'string', 'must be a string')
+    invariant(typeof email === 'string', 'Email must be a string')
+    invariant(typeof password === 'string', 'Password must be a string')
+    invariant(typeof username === 'string', 'Username must be a string')
 
     const existingUser = await getByEmail(email)
     const existingProfile = await prisma.profile.findUnique({
